@@ -1,0 +1,121 @@
+##############################################################
+#                                                            #
+#                    Nyex Gaming - Spigot                    #
+#                          V 1.0.0                           #
+#                                                            #
+#      ⇝ Loja: https://nyexgaming.com.br/                    #
+#      ⇝ Discord: https://comunidade.nyexgaming.com.br/      #
+#                                                            #
+##############################################################
+#                                                            #
+#      Nós temos as seguintes placeholders disponíveis:      #
+#      - <transacao:id> - ID da compra                       #
+#      - <transacao:status> - Status da compra               #
+#      - <transacao:prince> - Valor da compra                #
+#                                                            #
+##############################################################
+
+config:
+  title: 'Nyex Gaming - Minhas entregas'
+
+items:
+  product:
+    type: SKULL_ITEM
+    data: 3
+    meta:
+      display-name: '§6NOVO PACOTE!'
+      lore:
+        - ''
+        - '§8 ● §fTransação: §7<transacao:id>'
+        - '§8 ● §fStatus: §7<transacao:status>'
+        - '§8 ● §fValor: §7R$ <transacao:prince>'
+        - ''
+        - '§aClique para ver mais opções.'
+    skull:
+      texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzQxYjMzOTYxYTFjOTg4MTdkNzFmYmFlMjkzMzJmMzY1ZWU2MGIyOGI2YmE2ODM2Y2IwNjA5ZDZkMDcxYzA4ZGEifX19'
+  refresh:
+    type: SKULL_ITEM
+    data: 3
+    meta:
+      display-name: '§6Recarregar'
+      lore:
+        - '§7Clique para carregar os produtos.'
+    skull:
+      texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzI1OWU4ZDQxOTZmZWE4MjcwMjVjMjkyN2E2ZmNkNmU5OGQwMzAwNTczNzEyMzhhNzdhZTRjZGRlYmNlODY0NzcifX19'
+
+  order:
+    date:
+      type: SKULL_ITEM
+      data: 3
+      meta:
+        display-name: '§6Ordenação'
+        lore:
+          - ''
+          - ' §e➤ Data de compra'
+          - ' §8➤ Preço pago'
+          - ''
+          - '§7Clique para mudar a ordem.'
+      skull:
+        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzNjYTFhNDhkMmQyMzFmYTcxYmE1ZjdjNDBmZGMxMGQzZjJlOThjNWE2M2MwMTczMjFlNjc4MTMwOGI4YTU3OTMifX19'
+    prince:
+      type: SKULL_ITEM
+      data: 3
+      meta:
+        display-name: '§6Ordenação'
+        lore:
+          - ''
+          - ' §8➤ Data de compra'
+          - ' §e➤ Preço pago'
+          - ''
+          - '§7Clique para mudar a ordem.'
+      skull:
+        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzE3NmJjNjg1NDdjNzZiYTQ2MjUwODUwMjk4MDQ2NDdiODJmODE2NzA1YzhiYjYxZTM3ZDE0ODVhNzVjNzJjNWYifX19'
+
+  filter:
+    all:
+      type: SKULL_ITEM
+      data: 3
+      meta:
+        display-name: '§6Filtro'
+        lore:
+          - ''
+          - ' §e➤ Nenhum'
+          - ' §8➤ Meus produtos'
+          - ' §8➤ Presentes recebidos'
+          - ''
+          - '§7Clique para mudar o filtro.'
+      skull:
+        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2ZmMGRiZWUzNzA4NzdmZWI0YTYyYWM5ZjkzZTEzZmE1ZGUwNGQzMTNlZjgzZmVlZTgxNWY2ZWQzYTdhYmNhNWMifX19'
+    products:
+      type: SKULL_ITEM
+      data: 3
+      meta:
+        display-name: '§6Filtro'
+        lore:
+          - ''
+          - ' §8➤ Nenhum'
+          - ' §e➤ Meus produtos'
+          - ' §8➤ Presentes recebidos'
+          - ''
+          - '§7Clique para mudar o filtro.'
+      skull:
+        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzg3NWU3OTQ4ODg0N2JhMDJkNWUxMmU3MDQyZDc2MmU4N2NlMDhmYTg0ZmI4OWMzNWQ2YjVjY2NiOGI5ZjRiZWQifX19'
+    donations:
+      type: SKULL_ITEM
+      data: 3
+      meta:
+        display-name: '§6Filtro'
+        lore:
+          - ''
+          - ' §8➤ Nenhum'
+          - ' §8➤ Meus produtos'
+          - ' §e➤ Presentes recebidos'
+          - ''
+          - '§7Clique para mudar o filtro.'
+      skull:
+        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzRhZjUwZjE3MmE1MTBmYTYwYjJhZjBjYmI4NGYzNzE1MzZjOTY1ZWE1NTA4ODEyNTNmN2VjZDI2NDA3OTY5ZWIifX19'
+
+messages:
+  state:
+    PENDING: 'Pendente'
+    PAID: 'Pago'

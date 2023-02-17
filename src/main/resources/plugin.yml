@@ -1,0 +1,22 @@
+main: br.com.nyexgaming.mc.spigot.NyexPlugin
+
+name: NyexGaming
+description: 'Plugin para integração da plataforma NyexGaming.'
+version: 1.0.0
+
+author: WesleyGames001
+website: nyexgaming.com.br
+
+commands:
+  nyexgaming:
+    aliases:
+      - nyex
+    description: 'Comando administrativo do plugin.'
+    permission: nyexgaming.command.admin
+    permission-message: '§4Nyex Gaming ⇝ §cVocê não possui permissão para este comando.'
+  nyexstorage:
+    aliases:
+      - nyexarmazem
+    description: 'Ative ou doe seus produtos da loja.'
+    permission: nyexgaming.command.storage
+    permission-message: '§4Nyex Gaming ⇝ §cVocê não possui permissão para este comando.'

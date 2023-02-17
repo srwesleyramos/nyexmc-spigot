@@ -1,0 +1,33 @@
+##############################################################
+#                                                            #
+#                    Nyex Gaming - Spigot                    #
+#                          V 1.0.0                           #
+#                                                            #
+#      ⇝ Loja: https://nyexgaming.com.br/                    #
+#      ⇝ Discord: https://comunidade.nyexgaming.com.br/      #
+#                                                            #
+##############################################################
+
+credentials:
+  token-loja: 'CREDENCIAIS DA LOJA'
+  token-server: 'CREDENCIAIS DO SERVIDOR'
+
+modules:
+  storage:
+    #                                                     #
+    #   Você deseja ativar o sistema de armazem?          #
+    #   Deixe como false para ativar automaticamente os   #
+    #   produtos comprados na loja.                       #
+    #                                                     #
+    status: true
+
+    #                                                     #
+    #     Esse sistema encontra-se em desenvolvimento.    #
+    #                                                     #
+    donation: false
+
+  broadcast:
+    #                                                     #
+    #     Esse sistema encontra-se em desenvolvimento.    #
+    #                                                     #
+    status: false
