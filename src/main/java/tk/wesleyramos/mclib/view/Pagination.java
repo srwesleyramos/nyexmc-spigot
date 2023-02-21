@@ -4,6 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
 public abstract class Pagination {
 
     public static int CURRENT_INDEX = 0;
@@ -34,6 +37,7 @@ public abstract class Pagination {
         if (pages[page - 1] == null) {
             return this;
         }
+
         pages[page - 1].create(player);
         return this;
     }
@@ -45,34 +49,28 @@ public abstract class Pagination {
     public abstract ViewItem[] getItems();
 
     public Pagination update() {
-        boolean reaming = true;
-        ViewItem[] items = getItems();
+        Iterator<ViewItem> items = Arrays.stream(getItems()).iterator();
 
-        for (int pageId = 0; pageId < 100; pageId++) {
-            if (!reaming) {
-                if (pages[pageId] == null) {
+        for (int id = 0; id < 100; id++) {
+            if (id != 0 && !items.hasNext()) {
+                if (pages[id] == null) {
                     break;
                 }
 
-                pages[pageId].getViewers().forEach(p -> createPage(p, 1));
-                pages[pageId] = null;
+                pages[id].getViewers().forEach(p -> createPage(p, 1));
+                pages[id] = null;
                 continue;
             }
 
-            View view = pages[pageId] == null ? new View(pageId + 1, this) : pages[pageId];
+            View view = pages[id] == null ? new View(id + 1, this) : pages[id];
 
-            for (int i = 0; i < slots.length; i++) {
-                int index = pageId * slots.length + i;
-
-                if (index >= items.length) {
-                    reaming = false;
-                    view.remove(slots[i]);
+            for (int slot : slots) {
+                if (!items.hasNext()) {
+                    view.remove(slot);
                     continue;
                 }
 
-                ViewItem item = items[index];
-                item.setSlot(slots[i]);
-                view.set(item);
+                view.set(items.next().setSlot(slot));
             }
 
             for (ViewItem staticItem : staticItems) {
@@ -81,16 +79,25 @@ public abstract class Pagination {
                 }
             }
 
-            if (previousButton != null && pageId > 0) {
-                view.set(previousButton);
+            if (previousButton != null) {
+                if (id > 0) {
+                    view.set(previousButton);
+                } else {
+                    view.remove(previousButton.getSlot());
+                }
             }
 
-            if (nextButton != null && reaming) {
-                view.set(nextButton);
+            if (nextButton != null) {
+                if (items.hasNext()) {
+                    view.set(nextButton);
+                } else {
+                    view.remove(nextButton.getSlot());
+                }
             }
 
-            pages[pageId] = view.update();
+            pages[id] = view.update();
         }
+
         return this;
     }
 
@@ -100,9 +107,11 @@ public abstract class Pagination {
             public ItemStack getItem(Player player) {
                 return item;
             }
-        };
-        this.nextButton.setLeft(e -> createPage((Player) e.getWhoClicked(), ((ViewHolder) e.getWhoClicked().getOpenInventory().getTopInventory().getHolder()).getPageId() + 1));
-        this.nextButton.setRight(e -> createPage((Player) e.getWhoClicked(), ((ViewHolder) e.getWhoClicked().getOpenInventory().getTopInventory().getHolder()).getPageId() + 1));
+        }.setBoth(e -> createPage(
+                (Player) e.getWhoClicked(),
+                ((ViewHolder) e.getWhoClicked().getOpenInventory().getTopInventory().getHolder()).getPageId() + 1)
+        );
+
         return this;
     }
 
@@ -112,9 +121,11 @@ public abstract class Pagination {
             public ItemStack getItem(Player player) {
                 return item;
             }
-        };
-        this.previousButton.setLeft(e -> createPage((Player) e.getWhoClicked(), ((ViewHolder) e.getWhoClicked().getOpenInventory().getTopInventory().getHolder()).getPageId() - 1));
-        this.previousButton.setRight(e -> createPage((Player) e.getWhoClicked(), ((ViewHolder) e.getWhoClicked().getOpenInventory().getTopInventory().getHolder()).getPageId() - 1));
+        }.setBoth(e -> createPage(
+                (Player) e.getWhoClicked(),
+                ((ViewHolder) e.getWhoClicked().getOpenInventory().getTopInventory().getHolder()).getPageId() - 1)
+        );
+
         return this;
     }
 

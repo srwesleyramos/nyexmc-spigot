@@ -4,6 +4,9 @@ name: NyexGaming
 description: 'Plugin para integração da plataforma NyexGaming.'
 version: 1.0.0
 
+softdepend:
+  - Citizens
+
 author: WesleyGames001
 website: nyexgaming.com.br
 

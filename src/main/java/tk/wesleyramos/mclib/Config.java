@@ -13,10 +13,11 @@ import java.util.Map;
 
 public class Config {
 
-    private String name;
+    private final String name;
+    private final Plugin plugin;
+
     private File file;
     private YamlConfiguration config;
-    private Plugin plugin;
 
     public Config(Plugin plugin, String fileName) {
         this.name = fileName;

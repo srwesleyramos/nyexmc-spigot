@@ -18,7 +18,11 @@ public class View {
     private final Pagination pagination;
 
     public View(Plugin plugin, String title, int rows) {
-        this.id = -1;
+        this(-1, plugin, title, rows);
+    }
+
+    public View(int id, Plugin plugin, String title, int rows) {
+        this.id = id;
         this.pagination = null;
         this.plugin = plugin;
         this.title = title;
@@ -56,7 +60,7 @@ public class View {
         for (int i = 0; i < rows * 9; i++) {
             ItemStack item = items[i] != null ? items[i].getItem(player) : null;
 
-            if (item != null && !item.equals(inventory.getItem(i))) { // null exception
+            if (item != null && !item.equals(inventory.getItem(i))) {
                 inventory.setItem(i, item);
             } else if (item == null && inventory.getItem(i) != null) {
                 inventory.setItem(i, null);

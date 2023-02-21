@@ -1,4 +1,3 @@
-##############################################################
 #                                                            #
 #                    Nyex Gaming - Spigot                    #
 #                          V 1.0.0                           #
@@ -6,19 +5,35 @@
 #      ⇝ Loja: https://nyexgaming.com.br/                    #
 #      ⇝ Discord: https://comunidade.nyexgaming.com.br/      #
 #                                                            #
-##############################################################
 #                                                            #
 #      Nós temos as seguintes placeholders disponíveis:      #
 #      - <transacao:id> - ID da compra                       #
 #      - <transacao:status> - Status da compra               #
-#      - <transacao:prince> - Valor da compra                #
+#      - <transacao:price> - Valor da compra                 #
 #                                                            #
-##############################################################
+#      - <presente:sender> - Rementente do presente          #
+#                                                            #
 
 config:
   title: 'Nyex Gaming - Minhas entregas'
 
 items:
+  gift:
+    type: SKULL_ITEM
+    data: 3
+    meta:
+      display-name: '§6NOVO PRESENTE!'
+      lore:
+        - ''
+        - '§8 ● §fTransação: §7<transacao:id>'
+        - '§8 ● §fStatus: §7<transacao:status>'
+        - '§8 ● §fValor: §7R$ <transacao:price>'
+        - ''
+        - '§8 ● §fComprador: §7<gift:sender>'
+        - ''
+        - '§aClique para ver mais opções.'
+    skull:
+      texture: 'http://textures.minecraft.net/texture/5b85e29f29ec9a90e482ea5b8391bcb4560bbae0dcd15d7ce1d86016b4356e98'
   product:
     type: SKULL_ITEM
     data: 3
@@ -28,11 +43,11 @@ items:
         - ''
         - '§8 ● §fTransação: §7<transacao:id>'
         - '§8 ● §fStatus: §7<transacao:status>'
-        - '§8 ● §fValor: §7R$ <transacao:prince>'
+        - '§8 ● §fValor: §7R$ <transacao:price>'
         - ''
         - '§aClique para ver mais opções.'
     skull:
-      texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzQxYjMzOTYxYTFjOTg4MTdkNzFmYmFlMjkzMzJmMzY1ZWU2MGIyOGI2YmE2ODM2Y2IwNjA5ZDZkMDcxYzA4ZGEifX19'
+      texture: 'http://textures.minecraft.net/texture/41b33961a1c98817d71fbae29332f365ee60b28b6ba6836cb0609d6d071c08da'
   refresh:
     type: SKULL_ITEM
     data: 3
@@ -41,7 +56,7 @@ items:
       lore:
         - '§7Clique para carregar os produtos.'
     skull:
-      texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzI1OWU4ZDQxOTZmZWE4MjcwMjVjMjkyN2E2ZmNkNmU5OGQwMzAwNTczNzEyMzhhNzdhZTRjZGRlYmNlODY0NzcifX19'
+      texture: 'http://textures.minecraft.net/texture/259e8d4196fea827025c2927a6fcd6e98d030057371238a77ae4cddebce86477'
 
   order:
     date:
@@ -56,8 +71,8 @@ items:
           - ''
           - '§7Clique para mudar a ordem.'
       skull:
-        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzNjYTFhNDhkMmQyMzFmYTcxYmE1ZjdjNDBmZGMxMGQzZjJlOThjNWE2M2MwMTczMjFlNjc4MTMwOGI4YTU3OTMifX19'
-    prince:
+        texture: 'http://textures.minecraft.net/texture/3ca1a48d2d231fa71ba5f7c40fdc10d3f2e98c5a63c017321e6781308b8a5793'
+    price:
       type: SKULL_ITEM
       data: 3
       meta:
@@ -69,7 +84,7 @@ items:
           - ''
           - '§7Clique para mudar a ordem.'
       skull:
-        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzE3NmJjNjg1NDdjNzZiYTQ2MjUwODUwMjk4MDQ2NDdiODJmODE2NzA1YzhiYjYxZTM3ZDE0ODVhNzVjNzJjNWYifX19'
+        texture: 'http://textures.minecraft.net/texture/176bc68547c76ba4625085029804647b82f816705c8bb61e37d1485a75c72c5f'
 
   filter:
     all:
@@ -85,7 +100,7 @@ items:
           - ''
           - '§7Clique para mudar o filtro.'
       skull:
-        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2ZmMGRiZWUzNzA4NzdmZWI0YTYyYWM5ZjkzZTEzZmE1ZGUwNGQzMTNlZjgzZmVlZTgxNWY2ZWQzYTdhYmNhNWMifX19'
+        texture: 'http://textures.minecraft.net/texture/ff0dbee370877feb4a62ac9f93e13fa5de04d313ef83feee815f6ed3a7abca5c'
     products:
       type: SKULL_ITEM
       data: 3
@@ -99,7 +114,7 @@ items:
           - ''
           - '§7Clique para mudar o filtro.'
       skull:
-        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzg3NWU3OTQ4ODg0N2JhMDJkNWUxMmU3MDQyZDc2MmU4N2NlMDhmYTg0ZmI4OWMzNWQ2YjVjY2NiOGI5ZjRiZWQifX19'
+        texture: 'http://textures.minecraft.net/texture/875e79488847ba02d5e12e7042d762e87ce08fa84fb89c35d6b5cccb8b9f4bed'
     donations:
       type: SKULL_ITEM
       data: 3
@@ -113,9 +128,4 @@ items:
           - ''
           - '§7Clique para mudar o filtro.'
       skull:
-        texture: 'e3RleHR1cmVzOntTS0lOOnt1cmw6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzRhZjUwZjE3MmE1MTBmYTYwYjJhZjBjYmI4NGYzNzE1MzZjOTY1ZWE1NTA4ODEyNTNmN2VjZDI2NDA3OTY5ZWIifX19'
-
-messages:
-  state:
-    PENDING: 'Pendente'
-    PAID: 'Pago'
+        texture: 'http://textures.minecraft.net/texture/4af50f172a510fa60b2af0cbb84f371536c965ea550881253f7ecd26407969eb'

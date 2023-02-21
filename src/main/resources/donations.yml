@@ -1,0 +1,32 @@
+#                                                            #
+#                    Nyex Gaming - Spigot                    #
+#                          V 1.0.0                           #
+#                                                            #
+#      ⇝ Loja: https://nyexgaming.com.br/                    #
+#      ⇝ Discord: https://comunidade.nyexgaming.com.br/      #
+#                                                            #
+
+config:
+  title: 'Nyex Gaming - Minhas entregas'
+
+items:
+  active:
+    type: SKULL_ITEM
+    data: 3
+    meta:
+      display-name: '§aConfirmar'
+      lore:
+        - '§8Clique para ativar o produto.'
+    skull:
+      texture: 'http://textures.minecraft.net/texture/f1f909cc1c32da3b11603944d4f731d63baa9ade1e1211ddf9f0155091c5c94b'
+  give:
+    type: SKULL_ITEM
+    data: 3
+    meta:
+      display-name: '§bPresentar'
+      lore:
+        - '§8Clique para doar o produto.'
+        - ''
+        - '§7AVISO: §8Essa ação não pode ser desfeita.'
+    skull:
+      texture: 'http://textures.minecraft.net/texture/447f7dc2ec0ca1a1d60c37f1ecaef36c951e6525bfcc2a8f1783bd78d883f1f5'

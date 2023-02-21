@@ -1,4 +1,3 @@
-##############################################################
 #                                                            #
 #                    Nyex Gaming - Spigot                    #
 #                          V 1.0.0                           #
@@ -6,28 +5,48 @@
 #      ⇝ Loja: https://nyexgaming.com.br/                    #
 #      ⇝ Discord: https://comunidade.nyexgaming.com.br/      #
 #                                                            #
-##############################################################
 
 credentials:
-  token-loja: 'CREDENCIAIS DA LOJA'
-  token-server: 'CREDENCIAIS DO SERVIDOR'
+  access-store: 'CREDENCIAIS DA LOJA'
+  access-server: 'CREDENCIAIS DO SERVIDOR'
+
+database:
+  #                                                     #
+  #   Qual o banco de dados você deseja utilizar?       #
+  #                                                     #
+  #   MYSQL: jdbc:mysql://<host:port>/<database>        #
+  #   SQLITE: jdbc:sqlite:<caminho>                     #
+  #                                                     #
+  jdbcUrl: 'jdbc:sqlite:plugins/NyexGaming/sqlite.db'
+
+  #                                                     #
+  #   Qual o usuário e senha do seu banco de dados?     #
+  #   Se for sqlite, ignore essa configuração.          #
+  #                                                     #
+  user: 'root'
+  password: 'password'
 
 modules:
-  storage:
-    #                                                     #
-    #   Você deseja ativar o sistema de armazem?          #
-    #   Deixe como false para ativar automaticamente os   #
-    #   produtos comprados na loja.                       #
-    #                                                     #
-    status: true
-
-    #                                                     #
-    #     Esse sistema encontra-se em desenvolvimento.    #
-    #                                                     #
-    donation: false
-
   broadcast:
     #                                                     #
     #     Esse sistema encontra-se em desenvolvimento.    #
     #                                                     #
     status: false
+
+  storage:
+    #                                                     #
+    #   Você deseja ativar o sistema de armazem?          #
+    #   Deixe como false para ativar automaticamente.   #
+    #                                                     #
+    status: true
+
+    #                                                     #
+    #   Permitir que as compras sejam doados?             #
+    #                                                     #
+    donations: true
+
+    #                                                     #
+    #   Você deseja NPCs para abrir o armazém?            #
+    #   Essa funcionalidade requer o plugin Citizens.     #
+    #                                                     #
+    npcs: true
