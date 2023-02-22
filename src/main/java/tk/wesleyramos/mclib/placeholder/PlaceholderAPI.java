@@ -48,7 +48,7 @@ public class PlaceholderAPI {
             string = string.replace(CHAR_LEFT + displayName + CHAR_RIGHT, placeholder.getResult(player));
         }
 
-        return string;
+        return string.replace("&", "§");
     }
 
     public Placeholder getByName(String name) {

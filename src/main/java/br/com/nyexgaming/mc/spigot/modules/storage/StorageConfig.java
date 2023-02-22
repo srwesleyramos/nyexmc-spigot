@@ -2,7 +2,6 @@ package br.com.nyexgaming.mc.spigot.modules.storage;
 
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
 import br.com.nyexgaming.mc.spigot.modules.storage.views.ProductsView;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import tk.wesleyramos.mclib.Config;
@@ -38,7 +37,7 @@ public class StorageConfig {
     }
 
     public ViewItem getActiveItem() {
-        return new ViewItem(11, Sound.LAVA_POP) {
+        return new ViewItem(11) {
             @Override
             public ItemStack getItem(Player player) {
                 return Yaml.ITEM_STACK.getYamlFile(donations.getSection("items.active"), null);
@@ -47,7 +46,7 @@ public class StorageConfig {
     }
 
     public ViewItem getGiveItem() {
-        return new ViewItem(15, Sound.LAVA_POP) {
+        return new ViewItem(15) {
             @Override
             public ItemStack getItem(Player player) {
                 return Yaml.ITEM_STACK.getYamlFile(donations.getSection("items.give"), null);
@@ -56,7 +55,7 @@ public class StorageConfig {
     }
 
     public ViewItem getGiftItem(PlaceholderAPI placeholder) {
-        return new ViewItem(-1, Sound.LAVA_POP) {
+        return new ViewItem(-1) {
             @Override
             public ItemStack getItem(Player player) {
                 return Yaml.ITEM_STACK.getYamlFile(storage.getSection("items.gift"), placeholder);
@@ -65,7 +64,7 @@ public class StorageConfig {
     }
 
     public ViewItem getProductItem(PlaceholderAPI placeholder) {
-        return new ViewItem(-1, Sound.LAVA_POP) {
+        return new ViewItem(-1) {
             @Override
             public ItemStack getItem(Player player) {
                 return Yaml.ITEM_STACK.getYamlFile(storage.getSection("items.product"), placeholder);
@@ -74,7 +73,7 @@ public class StorageConfig {
     }
 
     public ViewItem getRefreshItem() {
-        return new ViewItem(49, Sound.LAVA_POP) {
+        return new ViewItem(49) {
             @Override
             public ItemStack getItem(Player player) {
                 return Yaml.ITEM_STACK.getYamlFile(storage.getSection("items.refresh"), null);
@@ -83,7 +82,7 @@ public class StorageConfig {
     }
 
     public ViewItem getOrderItem(ProductsView view) {
-        return new ViewItem(48, Sound.LAVA_POP) {
+        return new ViewItem(48) {
             @Override
             public ItemStack getItem(Player player) {
                 return Yaml.ITEM_STACK.getYamlFile(storage.getSection("items.order." + view.order.name().toLowerCase()), null);
@@ -92,7 +91,7 @@ public class StorageConfig {
     }
 
     public ViewItem getFilterItem(ProductsView view) {
-        return new ViewItem(50, Sound.LAVA_POP) {
+        return new ViewItem(50) {
             @Override
             public ItemStack getItem(Player player) {
                 return Yaml.ITEM_STACK.getYamlFile(storage.getSection("items.filter." + view.filter.name().toLowerCase()), null);

@@ -3,11 +3,13 @@ package br.com.nyexgaming.mc.spigot.modules.storage.events;
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
 import br.com.nyexgaming.mc.spigot.modules.storage.Storage;
 import br.com.nyexgaming.mc.spigot.modules.storage.views.ConfirmView;
+import br.com.nyexgaming.mc.spigot.modules.storage.views.ProductsView;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import tk.wesleyramos.mclib.view.ViewHolder;
 
@@ -22,6 +24,16 @@ public class DonationEvents implements Listener {
 
     public DonationEvents(Storage storage) {
         this.storage = storage;
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        if (!storage.views.containsKey(e.getPlayer().getName().toLowerCase())) {
+            storage.views.put(
+                    e.getPlayer().getName().toLowerCase(),
+                    new ProductsView(e.getPlayer().getName(), storage)
+            );
+        }
     }
 
     @EventHandler

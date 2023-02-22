@@ -23,7 +23,7 @@ public class StorageCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!service.isStorageActivated()) {
-            sender.sendMessage("§4Nyex Gaming ⇝ §cO sistema de armazém se encontra desativado no momento.");
+            sender.sendMessage("§cO sistema de armazém se encontra desativado no momento.");
             return true;
         }
 
@@ -83,7 +83,7 @@ public class StorageCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         return Bukkit.getOnlinePlayers().stream().map(Player::getName)
-                .filter(name -> args.length != 1 || name.toLowerCase().startsWith(args[0]))
+                .filter(name -> args.length != 1 || name.toLowerCase().startsWith(args[0].toLowerCase()))
                 .collect(Collectors.toList());
     }
 }

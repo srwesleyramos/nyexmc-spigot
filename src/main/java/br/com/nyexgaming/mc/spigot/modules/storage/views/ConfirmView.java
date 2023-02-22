@@ -35,11 +35,7 @@ public class ConfirmView extends View {
         set(storage.config.getGiveItem().setBoth((event) -> {
             DonationEvents.LISTENING.put(event.getWhoClicked().getName(), this);
 
-            event.getWhoClicked().sendMessage("");
-            event.getWhoClicked().sendMessage("  §9NyexGaming - Minhas compras");
-            event.getWhoClicked().sendMessage("  §7Digite §fo nome do jogador §7que você deseja fazer a doação.");
-            event.getWhoClicked().sendMessage("  §7Digite §fcancelar §7para cancelar a doação.");
-            event.getWhoClicked().sendMessage("");
+            storage.service.language.getAndSend(event.getWhoClicked(), "storage.donation-welcome");
 
             event.getWhoClicked().closeInventory();
         }));
@@ -55,18 +51,13 @@ public class ConfirmView extends View {
 
         if (confirmation == null) {
             if (player.getName().equalsIgnoreCase(message) || Bukkit.getPlayer(message) == null) {
-                player.sendMessage("§4Nyex Gaming ⇝ §cO jogador está offline, ele precisa estar online para receber o presente.");
+                storage.service.language.getAndSend(player, "storage.donation-not-found");
                 return false;
             }
 
             confirmation = Bukkit.getPlayer(message).getName();
 
-            player.sendMessage("");
-            player.sendMessage("  §9NyexGaming - Minhas compras");
-            player.sendMessage("  §7Escreva §fconfirmar §7para continuar.");
-            player.sendMessage("  §7Escreva §fcancelar §7para cancelar a doação.");
-            player.sendMessage("");
-
+            storage.service.language.getAndSend(player, "storage.donation-confirm");
             return false;
         }
 
@@ -74,15 +65,15 @@ public class ConfirmView extends View {
             Player target = Bukkit.getPlayer(confirmation);
 
             if (target == null) {
-                player.sendMessage("§4Nyex Gaming ⇝ §cO jogador ficou offline, ele precisa estar online para receber o presente. A operação foi cancelada.");
+                storage.service.language.getAndSend(player, "storage.donation-not-found");
                 return true;
             }
 
             storage.service.database.insertOrUpdate(shopping.donated(true, confirmation));
             storage.views.get(confirmation.toLowerCase()).update();
 
-            player.sendMessage("§9Nyex Gaming ⇝ §fO presente foi enviado ao jogador, avise-o para recarregar suas entregas.");
-            target.sendMessage("§9Nyex Gaming ⇝ §fVocê recebeu um novo presente, verifique seu armazém.");
+            storage.service.language.getAndSend(player, "storage.donation-sent");
+            storage.service.language.getAndSend(target, "storage.donation-received");
         }
 
         return false;

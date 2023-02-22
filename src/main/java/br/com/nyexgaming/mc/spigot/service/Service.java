@@ -3,6 +3,7 @@ package br.com.nyexgaming.mc.spigot.service;
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
 import br.com.nyexgaming.mc.spigot.database.Database;
 import br.com.nyexgaming.mc.spigot.modules.broadcast.Broadcast;
+import br.com.nyexgaming.mc.spigot.modules.language.Language;
 import br.com.nyexgaming.mc.spigot.modules.storage.Storage;
 import br.com.nyexgaming.sdk.NyexGaming;
 import br.com.nyexgaming.sdk.http.exceptions.NetworkErrorException;
@@ -19,6 +20,7 @@ public class Service {
     public final Config config;
     public final Database database;
     public final ServiceExecutor executor;
+    public final Language language;
     public final Storage storage;
     public final ServiceTask task;
 
@@ -30,6 +32,7 @@ public class Service {
         this.broadcast = new Broadcast(this);
         this.database = new Database(this);
         this.executor = new ServiceExecutor(this);
+        this.language = new Language(this);
         this.storage = new Storage(this);
 
         this.task = new ServiceTask(this);
@@ -40,6 +43,7 @@ public class Service {
         try {
             config.reload();
             database.reload();
+            language.reload();
             broadcast.reload();
             storage.reload();
 
@@ -65,6 +69,7 @@ public class Service {
         task.interrupt();
         storage.unload();
         broadcast.unload();
+        language.unload();
         database.unload();
 
         Bukkit.getConsoleSender().sendMessage("§9[Nyex Gaming]: §fTodos os módulos foram descarregados.");

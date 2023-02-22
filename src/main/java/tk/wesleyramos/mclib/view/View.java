@@ -52,7 +52,7 @@ public class View {
     public View update(Player player) {
         Inventory inventory = player.getOpenInventory().getTopInventory();
 
-        if (inventory == null || !inventory.getTitle().equals(title) || (inventory.getSize() / 9) != rows) {
+        if (inventory == null || (inventory.getSize() / 9) != rows) {
             this.create(player);
             return this;
         }
@@ -60,9 +60,9 @@ public class View {
         for (int i = 0; i < rows * 9; i++) {
             ItemStack item = items[i] != null ? items[i].getItem(player) : null;
 
-            if (item != null && !item.equals(inventory.getItem(i))) {
+            if (item != null) {
                 inventory.setItem(i, item);
-            } else if (item == null && inventory.getItem(i) != null) {
+            } else if (inventory.getItem(i) != null) {
                 inventory.setItem(i, null);
             }
         }

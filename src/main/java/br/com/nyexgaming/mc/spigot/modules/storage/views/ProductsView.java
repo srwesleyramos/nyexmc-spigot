@@ -86,7 +86,7 @@ public class ProductsView extends Pagination {
                     Player player = (Player) event.getWhoClicked();
 
                     if (!player.getName().equalsIgnoreCase(shopping.target())) {
-                        player.sendMessage("§4Nyex Gaming ⇝ §cVocê só possui permissão para §nvisualizar§r§c, não é possível ativar este produto.");
+                        parent.service.language.getAndSend(player, "storage.read-only");
                         return;
                     }
 

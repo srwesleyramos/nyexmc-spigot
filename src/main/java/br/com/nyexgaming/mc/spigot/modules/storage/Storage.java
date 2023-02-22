@@ -99,14 +99,14 @@ public class Storage extends ServiceExecutor {
         if (!service.isStorageActivated()) return;
 
         if (service.isDonationsActivated()) {
-            Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7armazém §ffoi finalizado.");
-        }
-
-        if (service.isNpcsActivated()) {
             Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7armazém/doadores §ffoi finalizado.");
         }
 
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7armazém/npcs §ffoi finalizado.");
+        if (service.isNpcsActivated()) {
+            Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7armazém/npcs §ffoi finalizado.");
+        }
+
+        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7armazém §ffoi finalizado.");
     }
 
     public void activeShopping(ProductsView view, Shopping shopping, Player player) {
@@ -115,18 +115,18 @@ public class Storage extends ServiceExecutor {
         }
 
         if (!player.getName().equalsIgnoreCase(shopping.target())) {
-            player.sendMessage("§4Nyex Gaming ⇝ §cVocê só possui permissão para §nvisualizar§r§c, não é possível ativar este produto.");
+            service.language.getAndSend(player, "storage.read-only");
             return;
         }
 
         try {
             service.executor.execute(new Shopping[]{shopping});
 
-            player.sendMessage("§9Nyex Gaming ⇝ §aA compra §2#" + shopping.id_transacao + " §afoi ativa na sua conta, obrigado por nos ajudar!");
+            service.language.getAndSend(player, "storage.activated", "<transacao:id>", shopping.id_transacao);
         } catch (NetworkErrorException | RequestFailedException | TokenFailureException ex) {
             shopping.delivered(false);
 
-            player.sendMessage("§4Nyex Gaming ⇝ §cOps... Não é possível ativar o seu produto agora, tente novamente em alguns minutos.");
+            service.language.getAndSend(player, "storage.api-error");
         }
 
         view.update();
