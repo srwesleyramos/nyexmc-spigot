@@ -14,13 +14,14 @@ public class DatabaseTask extends Thread {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(10000L);
+                Thread.sleep(300000L);
             } catch (InterruptedException ignored) {
             }
 
             try {
                 database.saveAll();
-            } catch (SQLException ignored) {
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

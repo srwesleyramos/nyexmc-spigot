@@ -1,11 +1,11 @@
 package br.com.nyexgaming.mc.spigot.database.models;
 
-public class LanguageModel {
+public class UserModel {
 
     private final String name;
     private String language;
 
-    public LanguageModel(String name, String language) {
+    public UserModel(String name, String language) {
         this.name = name;
         this.language = language;
     }

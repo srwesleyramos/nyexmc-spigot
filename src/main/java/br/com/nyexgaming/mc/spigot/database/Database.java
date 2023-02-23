@@ -2,10 +2,10 @@ package br.com.nyexgaming.mc.spigot.database;
 
 import br.com.nyexgaming.mc.spigot.database.adapter.CitizenAdapter;
 import br.com.nyexgaming.mc.spigot.database.adapter.DeliveryAdapter;
-import br.com.nyexgaming.mc.spigot.database.adapter.LanguageAdapter;
+import br.com.nyexgaming.mc.spigot.database.adapter.UserAdapter;
 import br.com.nyexgaming.mc.spigot.database.models.CitizenModel;
 import br.com.nyexgaming.mc.spigot.database.models.DeliveryModel;
-import br.com.nyexgaming.mc.spigot.database.models.LanguageModel;
+import br.com.nyexgaming.mc.spigot.database.models.UserModel;
 import br.com.nyexgaming.mc.spigot.service.Service;
 import org.bukkit.Bukkit;
 
@@ -17,7 +17,7 @@ public class Database {
 
     private final Map<Long, CitizenModel> citizens = new HashMap<>();
     private final Map<Long, DeliveryModel> deliveries = new HashMap<>();
-    private final Map<String, LanguageModel> languages = new HashMap<>();
+    private final Map<String, UserModel> users = new HashMap<>();
     private final Service service;
     private final DatabaseTask task;
     private Connection connection;
@@ -47,7 +47,7 @@ public class Database {
         ).execute();
 
         connection.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS `nyex_languages` (`name` VARCHAR(16) PRIMARY KEY,`language` TEXT);"
+                "CREATE TABLE IF NOT EXISTS `nyex_users` (`name` VARCHAR(16) PRIMARY KEY,`language` TEXT);"
         ).execute();
 
         loadAll();
@@ -67,7 +67,7 @@ public class Database {
     public void loadAll() throws SQLException {
         loadCitizens();
         loadDeliveries();
-        loadLanguages();
+        loadUsers();
     }
 
     public void loadCitizens() throws SQLException {
@@ -94,22 +94,22 @@ public class Database {
         Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot] [DATABASE]: §7" + deliveries.size() + " deliveries §fwere loaded.");
     }
 
-    public void loadLanguages() throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM `nyex_languages`;");
+    public void loadUsers() throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM `nyex_users`;");
         ResultSet result = statement.executeQuery();
 
         while (result.next()) {
-            LanguageModel language = LanguageAdapter.read(result);
-            languages.put(language.getName(), language);
+            UserModel user = UserAdapter.read(result);
+            users.put(user.getName(), user);
         }
 
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot] [DATABASE]: §7" + languages.size() + " users §fwere loaded.");
+        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot] [DATABASE]: §7" + users.size() + " users §fwere loaded.");
     }
 
     public void saveAll() throws SQLException {
         saveCitizens();
         saveDeliveries();
-        saveLanguages();
+        saveUsers();
     }
 
     public void saveCitizens() throws SQLException {
@@ -124,9 +124,9 @@ public class Database {
         }
     }
 
-    public void saveLanguages() throws SQLException {
-        for (LanguageModel language : languages.values()) {
-            update(language);
+    public void saveUsers() throws SQLException {
+        for (UserModel user : users.values()) {
+            update(user);
         }
     }
 
@@ -150,14 +150,14 @@ public class Database {
         deliveries.putIfAbsent(delivery.getId_transacao(), delivery);
     }
 
-    public void update(LanguageModel language) throws SQLException {
+    public void update(UserModel user) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("INSERT OR REPLACE INTO `nyex_languages` VALUES (?,?)");
 
-        LanguageAdapter.write(statement, language);
+        UserAdapter.write(statement, user);
 
         statement.execute();
 
-        languages.putIfAbsent(language.getName(), language);
+        users.putIfAbsent(user.getName(), user);
     }
 
     public CitizenModel getCitizenById(long id) {
@@ -168,8 +168,8 @@ public class Database {
         return deliveries.get(id);
     }
 
-    public LanguageModel getLanguageByUser(String name) {
-        return languages.get(name.toLowerCase());
+    public UserModel getUserByName(String name) {
+        return users.get(name.toLowerCase());
     }
 
     public Connection getConnection() {
