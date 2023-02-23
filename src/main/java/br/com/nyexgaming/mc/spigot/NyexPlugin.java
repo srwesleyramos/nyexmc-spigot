@@ -1,10 +1,10 @@
 package br.com.nyexgaming.mc.spigot;
 
-import br.com.nyexgaming.mc.spigot.modules.storage.StorageCommand;
-import br.com.nyexgaming.mc.spigot.modules.storage.events.CitizensEvents;
-import br.com.nyexgaming.mc.spigot.modules.storage.events.DonationEvents;
 import br.com.nyexgaming.mc.spigot.service.Service;
 import br.com.nyexgaming.mc.spigot.service.ServiceCommand;
+import br.com.nyexgaming.mc.spigot.storage.StorageCommand;
+import br.com.nyexgaming.mc.spigot.storage.events.CitizensEvents;
+import br.com.nyexgaming.mc.spigot.storage.events.DonationEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import tk.wesleyramos.mclib.view.ViewEvents;

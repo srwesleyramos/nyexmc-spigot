@@ -1,7 +1,6 @@
 package br.com.nyexgaming.mc.spigot.service;
 
-import br.com.nyexgaming.mc.spigot.database.models.Shopping;
-import br.com.nyexgaming.sdk.endpoints.transactions.Transaction;
+import br.com.nyexgaming.mc.spigot.database.models.DeliveryModel;
 import br.com.nyexgaming.sdk.http.exceptions.NetworkErrorException;
 import br.com.nyexgaming.sdk.http.exceptions.RequestFailedException;
 import br.com.nyexgaming.sdk.http.exceptions.TokenFailureException;
@@ -30,14 +29,14 @@ public class ServiceTask extends Thread {
             if (service.sdk == null) continue;
 
             try {
-                Transaction[] transactions = service.sdk.getTransactions();
+                br.com.nyexgaming.sdk.endpoints.transactions.Transaction[] transactions = service.sdk.getTransactions();
 
-                Field[] fields = Transaction.class.getFields();
+                Field[] fields = br.com.nyexgaming.sdk.endpoints.transactions.Transaction.class.getFields();
 
-                Shopping[] shopping = new Shopping[transactions.length];
+                DeliveryModel[] shopping = new DeliveryModel[transactions.length];
 
                 for (int i = 0; i < shopping.length; i++) {
-                    shopping[i] = new Shopping();
+                    /*shopping[i] = new DeliveryModel();
 
                     for (Field field : fields) {
                         try {
@@ -45,7 +44,7 @@ public class ServiceTask extends Thread {
                             field.set(shopping[i], field.get(transactions[i]));
                         } catch (IllegalAccessException ignored) {
                         }
-                    }
+                    }*/
                 }
 
                 service.getExecutor().execute(shopping);

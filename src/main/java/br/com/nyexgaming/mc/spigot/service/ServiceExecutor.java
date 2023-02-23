@@ -1,9 +1,7 @@
 package br.com.nyexgaming.mc.spigot.service;
 
-import br.com.nyexgaming.mc.spigot.database.models.Shopping;
-import br.com.nyexgaming.sdk.endpoints.products.Product;
+import br.com.nyexgaming.mc.spigot.database.models.DeliveryModel;
 import br.com.nyexgaming.sdk.endpoints.products.ProductCommand;
-import br.com.nyexgaming.sdk.endpoints.transactions.TransactionStatus;
 import br.com.nyexgaming.sdk.http.exceptions.NetworkErrorException;
 import br.com.nyexgaming.sdk.http.exceptions.RequestFailedException;
 import br.com.nyexgaming.sdk.http.exceptions.TokenFailureException;
@@ -18,17 +16,19 @@ public class ServiceExecutor {
         this.service = service;
     }
 
-    public void execute(Shopping[] transactions) throws NetworkErrorException, RequestFailedException, TokenFailureException {
-        for (Shopping shopping : transactions) {
-            Player player = Bukkit.getPlayer(shopping.target());
+    public void execute(DeliveryModel[] transactions) throws NetworkErrorException, RequestFailedException, TokenFailureException {
+        for (DeliveryModel shopping : transactions) {
+            Player player = Bukkit.getPlayer(shopping.isPresente() ? shopping.getDestinatario() : shopping.getIdentificador());
 
-            if (player == null || shopping.entregue || shopping.status() != TransactionStatus.PAID) {
+            if (player == null || shopping.getEntregue() == 1 || shopping.getStatus() != 1) {
                 continue;
             }
 
-            service.sdk.update(shopping.delivered(true));
+            shopping.setEntregue(1);
 
-            for (Product product : shopping.produtos) {
+            //service.sdk.update(shopping);
+
+            for (br.com.nyexgaming.sdk.endpoints.products.Product product : shopping.getProdutos()) {
                 for (int i = 0; i < product.quantidade; i++) {
                     for (ProductCommand command : product.comandos) {
                         Bukkit.dispatchCommand(
@@ -39,7 +39,7 @@ public class ServiceExecutor {
                 }
             }
 
-            service.broadcast.execute(player, shopping);
+            // service.broadcast.execute(player, shopping);
         }
     }
 }

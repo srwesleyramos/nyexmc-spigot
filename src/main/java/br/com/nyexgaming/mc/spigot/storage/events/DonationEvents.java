@@ -1,9 +1,9 @@
-package br.com.nyexgaming.mc.spigot.modules.storage.events;
+package br.com.nyexgaming.mc.spigot.storage.events;
 
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
-import br.com.nyexgaming.mc.spigot.modules.storage.Storage;
-import br.com.nyexgaming.mc.spigot.modules.storage.views.ConfirmView;
-import br.com.nyexgaming.mc.spigot.modules.storage.views.ProductsView;
+import br.com.nyexgaming.mc.spigot.storage.Storage;
+import br.com.nyexgaming.mc.spigot.storage.views.ConfirmView;
+import br.com.nyexgaming.mc.spigot.storage.views.ProductsView;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

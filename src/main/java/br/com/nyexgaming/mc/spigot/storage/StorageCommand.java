@@ -1,4 +1,4 @@
-package br.com.nyexgaming.mc.spigot.modules.storage;
+package br.com.nyexgaming.mc.spigot.storage;
 
 import br.com.nyexgaming.mc.spigot.service.Service;
 import org.bukkit.Bukkit;
@@ -65,7 +65,7 @@ public class StorageCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        service.database.insertOrDelete(npc.getId(), npc.getStoredLocation());
+        //service.database.insertOrDelete(npc.getId(), npc.getStoredLocation());
 
         if (service.storage.npcs.containsKey(npc.getId())) {
             service.storage.npcs.remove(npc.getId());

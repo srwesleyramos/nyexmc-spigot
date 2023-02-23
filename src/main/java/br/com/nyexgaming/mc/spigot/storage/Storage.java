@@ -1,41 +1,36 @@
-package br.com.nyexgaming.mc.spigot.modules.storage;
+package br.com.nyexgaming.mc.spigot.storage;
 
-import br.com.nyexgaming.mc.spigot.NyexPlugin;
-import br.com.nyexgaming.mc.spigot.database.models.Shopping;
-import br.com.nyexgaming.mc.spigot.modules.storage.views.ProductsView;
+import br.com.nyexgaming.mc.spigot.database.models.DeliveryModel;
+import br.com.nyexgaming.mc.spigot.language.LanguageConfig;
 import br.com.nyexgaming.mc.spigot.service.Service;
-import br.com.nyexgaming.mc.spigot.service.ServiceExecutor;
-import br.com.nyexgaming.sdk.endpoints.transactions.TransactionStatus;
-import br.com.nyexgaming.sdk.http.exceptions.NetworkErrorException;
-import br.com.nyexgaming.sdk.http.exceptions.RequestFailedException;
-import br.com.nyexgaming.sdk.http.exceptions.TokenFailureException;
+import br.com.nyexgaming.mc.spigot.storage.views.ProductsView;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import tk.wesleyramos.mclib.Serializer;
-import tk.wesleyramos.mclib.placeholder.Placeholder;
 import tk.wesleyramos.mclib.placeholder.PlaceholderAPI;
 
-import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Storage extends ServiceExecutor {
+public class Storage {
 
-    public final StorageConfig config;
+    public final LanguageConfig config;
 
     public final Map<Integer, Location> npcs;
     public final Map<String, ProductsView> views;
-    public final Map<Long, Shopping> products;
+    public final Map<Long, DeliveryModel> products;
+
+    public final StorageExecutor executor;
+    public final Service service;
 
     public Storage(Service service) {
-        super(service);
+        this.service = service;
 
-        this.config = new StorageConfig(this);
+        this.config = new LanguageConfig(this);
+        this.executor = new StorageExecutor(service);
 
         this.products = new HashMap<>();
         this.npcs = new HashMap<>();
@@ -64,17 +59,17 @@ public class Storage extends ServiceExecutor {
             return;
         }
 
-        PreparedStatement statement = service.database.connection.prepareStatement("SELECT * FROM `nyex_shopping`;");
+        /*PreparedStatement statement = service.database.connection.prepareStatement("SELECT * FROM `nyex_shopping`;");
         ResultSet query = statement.executeQuery();
 
         while (query.next()) {
-            Shopping shopping = new Shopping();
+            DeliveryModel shopping = new DeliveryModel();
             shopping.id_transacao = query.getLong("id");
             shopping.donated = query.getBoolean("donated");
             shopping.recipient = query.getString("recipient");
 
             products.put(shopping.id_transacao, shopping);
-        }
+        }*/
 
         Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7armazém/doadores §finiciou corretamente.");
     }
@@ -85,11 +80,11 @@ public class Storage extends ServiceExecutor {
             return;
         }
 
-        PreparedStatement statement = service.database.connection.prepareStatement("SELECT * FROM `nyex_citizens`;");
+        PreparedStatement statement = service.database.getConnection().prepareStatement("SELECT * FROM `nyex_citizens`;");
         ResultSet query = statement.executeQuery();
 
         while (query.next()) {
-            npcs.put(query.getInt("id"), Serializer.LOCATION.deserialize(query.getString("location")));
+            //npcs.put(query.getInt("id"), Serializer.LOCATION.deserialize(query.getString("location")));
         }
 
         Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7armazém/npcs §finiciou corretamente.");
@@ -109,8 +104,8 @@ public class Storage extends ServiceExecutor {
         Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7armazém §ffoi finalizado.");
     }
 
-    public void activeShopping(ProductsView view, Shopping shopping, Player player) {
-        if (shopping.entregue || shopping.status() != TransactionStatus.PAID) {
+    public void activeShopping(ProductsView view, DeliveryModel shopping, Player player) {
+        /*if (shopping.entregue || shopping.status() != TransactionStatus.PAID) {
             return;
         }
 
@@ -120,7 +115,7 @@ public class Storage extends ServiceExecutor {
         }
 
         try {
-            service.executor.execute(new Shopping[]{shopping});
+            service.executor.execute(new DeliveryModel[]{shopping});
 
             service.language.getAndSend(player, "storage.activated", "<transacao:id>", shopping.id_transacao);
         } catch (NetworkErrorException | RequestFailedException | TokenFailureException ex) {
@@ -129,7 +124,7 @@ public class Storage extends ServiceExecutor {
             service.language.getAndSend(player, "storage.api-error");
         }
 
-        view.update();
+        view.update();*/
     }
 
     public void createViewer(Player player, String name) {
@@ -146,52 +141,10 @@ public class Storage extends ServiceExecutor {
         views.put(name.toLowerCase(), view);
     }
 
-    @Override
-    public void execute(Shopping[] transactions) {
-        for (Shopping shopping : transactions) {
-            if (!views.containsKey(shopping.target().toLowerCase())) {
-                views.put(shopping.target().toLowerCase(), new ProductsView(shopping.target(), this));
-            }
-
-            if (!products.containsKey(shopping.id_transacao)) {
-                products.put(shopping.id_transacao, shopping);
-                continue;
-            }
-
-            Shopping memory = products.get(shopping.id_transacao);
-
-            if (shopping.equals(memory)) {
-                continue;
-            }
-
-            for (Field field : Shopping.class.getFields()) {
-                if (memory.entregue && field.getName().equals("entregue")) {
-                    continue;
-                }
-
-                if (memory.donated && (field.getName().equals("donated") || field.getName().equals("recipient"))) {
-                    continue;
-                }
-
-                try {
-                    field.setAccessible(true);
-                    field.set(memory, field.get(shopping));
-                } catch (IllegalAccessException ignored) {
-                }
-            }
-
-            products.put(shopping.id_transacao, memory);
-        }
-
-        for (ProductsView view : views.values()) {
-            view.update();
-        }
-    }
-
-    public PlaceholderAPI getPlaceholder(Shopping shopping) {
+    public PlaceholderAPI getPlaceholder(DeliveryModel shopping) {
         PlaceholderAPI placeholder = new PlaceholderAPI();
 
-        placeholder.register(new Placeholder(NyexPlugin.getInstance(), "transacao:id") {
+        /*placeholder.register(new Placeholder(NyexPlugin.getInstance(), "transacao:id") {
             @Override
             public String getResult(OfflinePlayer player) {
                 return Long.toString(shopping.id_transacao);
@@ -217,7 +170,7 @@ public class Storage extends ServiceExecutor {
             public String getResult(OfflinePlayer player) {
                 return shopping.identificador;
             }
-        });
+        });*/
 
         return placeholder;
     }

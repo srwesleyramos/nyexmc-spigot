@@ -1,6 +1,6 @@
-package br.com.nyexgaming.mc.spigot.modules.storage.events;
+package br.com.nyexgaming.mc.spigot.storage.events;
 
-import br.com.nyexgaming.mc.spigot.modules.storage.Storage;
+import br.com.nyexgaming.mc.spigot.storage.Storage;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,7 +1,8 @@
-package br.com.nyexgaming.mc.spigot.modules.storage;
+package br.com.nyexgaming.mc.spigot.language;
 
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
-import br.com.nyexgaming.mc.spigot.modules.storage.views.ProductsView;
+import br.com.nyexgaming.mc.spigot.storage.Storage;
+import br.com.nyexgaming.mc.spigot.storage.views.ProductsView;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import tk.wesleyramos.mclib.Config;
@@ -9,14 +10,14 @@ import tk.wesleyramos.mclib.Yaml;
 import tk.wesleyramos.mclib.placeholder.PlaceholderAPI;
 import tk.wesleyramos.mclib.view.ViewItem;
 
-public class StorageConfig {
+public class LanguageConfig {
 
     public final Storage parent;
 
     public final Config donations;
     public final Config storage;
 
-    public StorageConfig(Storage parent) {
+    public LanguageConfig(Storage parent) {
         this.parent = parent;
 
         this.donations = new Config(NyexPlugin.getInstance(), "donations.yml").saveDefaultFile();

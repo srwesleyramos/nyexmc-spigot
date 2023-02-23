@@ -1,16 +1,13 @@
-package br.com.nyexgaming.mc.spigot.modules.storage.views;
+package br.com.nyexgaming.mc.spigot.storage.views;
 
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
-import br.com.nyexgaming.mc.spigot.modules.storage.Storage;
-import br.com.nyexgaming.sdk.endpoints.transactions.TransactionStatus;
+import br.com.nyexgaming.mc.spigot.storage.Storage;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import tk.wesleyramos.mclib.builder.ItemBuilder;
 import tk.wesleyramos.mclib.view.Pagination;
 import tk.wesleyramos.mclib.view.ViewHolder;
 import tk.wesleyramos.mclib.view.ViewItem;
-
-import java.time.Instant;
 
 public class ProductsView extends Pagination {
 
@@ -53,42 +50,42 @@ public class ProductsView extends Pagination {
     public ViewItem[] getItems() {
         return parent.products.values().stream()
                 .filter(s -> {
-                    if (s.entregue || s.status > TransactionStatus.PAID.statusCode || s.identificador == null) {
+                    if (s.getEntregue() == 1 || s.getStatus() > 1 || s.getIdentificador() == null) {
                         return false;
                     }
 
                     if (filter == StorageFilter.PRODUCTS) {
-                        return !s.donated && name.equalsIgnoreCase(s.identificador);
+                        return !s.isPresente() && name.equalsIgnoreCase(s.getIdentificador());
                     }
 
                     if (filter == StorageFilter.DONATIONS) {
-                        return s.donated && name.equalsIgnoreCase(s.recipient);
+                        return s.isPresente() && name.equalsIgnoreCase(s.getDestinatario());
                     }
 
-                    return name.equalsIgnoreCase(s.target());
+                    return name.equalsIgnoreCase(s.isPresente() ? s.getDestinatario() : s.getIdentificador());
                 })
 
                 .sorted((s1, s2) -> {
                     if (order == StorageOrder.DATE) {
-                        Long d1 = Instant.parse(s1.atualizado_em).toEpochMilli();
-                        Long d2 = Instant.parse(s2.atualizado_em).toEpochMilli();
+                        Long d1 = s1.getAtualizado_em();
+                        Long d2 = s2.getAtualizado_em();
 
                         return d1.compareTo(d2);
                     }
 
-                    Long p1 = Long.parseLong(s1.valor.replace(",", "."));
-                    Long p2 = Long.parseLong(s2.valor.replace(",", "."));
+                    Long p1 = (long) s1.getValor();
+                    Long p2 = (long) s2.getValor();
 
                     return p2.compareTo(p1);
                 })
 
-                .map(shopping -> (shopping.donated ? parent.config.getGiftItem(parent.getPlaceholder(shopping)) : parent.config.getProductItem(parent.getPlaceholder(shopping))).setBoth((event) -> {
+                .map(shopping -> (shopping.isPresente() ? parent.config.getGiftItem(parent.getPlaceholder(shopping)) : parent.config.getProductItem(parent.getPlaceholder(shopping))).setBoth((event) -> {
                     Player player = (Player) event.getWhoClicked();
 
-                    if (!player.getName().equalsIgnoreCase(shopping.target())) {
+                    /*if (!player.getName().equalsIgnoreCase(shopping.target())) {
                         parent.service.language.getAndSend(player, "storage.read-only");
                         return;
-                    }
+                    }*/
 
                     if (parent.service.isDonationsActivated()) {
                         new ConfirmView(

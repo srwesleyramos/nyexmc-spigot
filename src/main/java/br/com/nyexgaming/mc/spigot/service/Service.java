@@ -2,9 +2,8 @@ package br.com.nyexgaming.mc.spigot.service;
 
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
 import br.com.nyexgaming.mc.spigot.database.Database;
-import br.com.nyexgaming.mc.spigot.modules.broadcast.Broadcast;
-import br.com.nyexgaming.mc.spigot.modules.language.Language;
-import br.com.nyexgaming.mc.spigot.modules.storage.Storage;
+import br.com.nyexgaming.mc.spigot.language.Language;
+import br.com.nyexgaming.mc.spigot.storage.Storage;
 import br.com.nyexgaming.sdk.NyexGaming;
 import br.com.nyexgaming.sdk.http.exceptions.NetworkErrorException;
 import br.com.nyexgaming.sdk.http.exceptions.RequestFailedException;
@@ -16,7 +15,6 @@ import java.sql.SQLException;
 
 public class Service {
 
-    public final Broadcast broadcast;
     public final Config config;
     public final Database database;
     public final ServiceExecutor executor;
@@ -29,7 +27,6 @@ public class Service {
     public Service() {
         this.config = new Config(NyexPlugin.getInstance(), "config.yml").saveDefaultFile();
 
-        this.broadcast = new Broadcast(this);
         this.database = new Database(this);
         this.executor = new ServiceExecutor(this);
         this.language = new Language(this);
@@ -42,10 +39,11 @@ public class Service {
     public void reload() {
         try {
             config.reload();
-            database.reload();
+            database.connect();
             language.reload();
-            broadcast.reload();
             storage.reload();
+
+            Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §4X §co módulo §4banco de dados §capresentou erros ao iniciar.");
 
             sdk = new NyexGaming(
                     this.config.getString("credentials.access-store"),
@@ -68,9 +66,12 @@ public class Service {
 
         task.interrupt();
         storage.unload();
-        broadcast.unload();
         language.unload();
-        database.unload();
+        try {
+            database.disconnect();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         Bukkit.getConsoleSender().sendMessage("§9[Nyex Gaming]: §fTodos os módulos foram descarregados.");
     }
@@ -92,6 +93,6 @@ public class Service {
     }
 
     public ServiceExecutor getExecutor() {
-        return isStorageActivated() ? storage : executor;
+        return isStorageActivated() ? storage.executor : executor;
     }
 }
