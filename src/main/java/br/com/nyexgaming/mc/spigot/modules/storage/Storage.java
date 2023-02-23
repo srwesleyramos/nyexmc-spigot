@@ -110,7 +110,7 @@ public class Storage extends ServiceExecutor {
     }
 
     public void activeShopping(ProductsView view, Shopping shopping, Player player) {
-        if (shopping.entregue || shopping.status() != TransactionStatus.PAID) {
+        if ((shopping.entregue != 0 && shopping.entregue != 2) || shopping.status() != TransactionStatus.PAID) {
             return;
         }
 
@@ -124,9 +124,11 @@ public class Storage extends ServiceExecutor {
 
             service.language.getAndSend(player, "storage.activated", "<transacao:id>", shopping.id_transacao);
         } catch (NetworkErrorException | RequestFailedException | TokenFailureException ex) {
-            shopping.delivered(false);
+            shopping.delivered(2);
 
             service.language.getAndSend(player, "storage.api-error");
+
+            ex.printStackTrace();
         }
 
         view.update();
@@ -153,6 +155,14 @@ public class Storage extends ServiceExecutor {
                 views.put(shopping.target().toLowerCase(), new ProductsView(shopping.target(), this));
             }
 
+            if (shopping.status == 2 && shopping.entregue != 3) {
+                try {
+                    service.executor.execute(new Shopping[]{shopping});
+                } catch (NetworkErrorException | RequestFailedException | TokenFailureException e) {
+                    e.printStackTrace();
+                }
+            }
+
             if (!products.containsKey(shopping.id_transacao)) {
                 products.put(shopping.id_transacao, shopping);
                 continue;
@@ -165,7 +175,7 @@ public class Storage extends ServiceExecutor {
             }
 
             for (Field field : Shopping.class.getFields()) {
-                if (memory.entregue && field.getName().equals("entregue")) {
+                if (memory.entregue == 1 && field.getName().equals("entregue")) {
                     continue;
                 }
 

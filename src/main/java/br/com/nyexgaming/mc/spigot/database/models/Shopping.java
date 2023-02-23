@@ -11,8 +11,8 @@ public class Shopping extends Transaction {
     public Shopping() {
     }
 
-    public Shopping delivered(boolean delivered) {
-        this.entregue = delivered;
+    public Shopping delivered(int entregue) {
+        this.entregue = entregue;
         return this;
     }
 

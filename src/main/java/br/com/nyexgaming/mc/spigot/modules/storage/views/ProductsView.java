@@ -53,7 +53,7 @@ public class ProductsView extends Pagination {
     public ViewItem[] getItems() {
         return parent.products.values().stream()
                 .filter(s -> {
-                    if (s.entregue || s.status > TransactionStatus.PAID.statusCode || s.identificador == null) {
+                    if ((s.entregue != 0 && s.entregue != 2) || s.status > TransactionStatus.PAID.statusCode || s.identificador == null) {
                         return false;
                     }
 

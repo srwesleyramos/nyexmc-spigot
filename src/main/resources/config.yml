@@ -26,6 +26,13 @@ database:
   user: 'root'
   password: 'password'
 
+#                                                       #
+#   Comandos que serão executados caso o jogador peça   #
+#   reembolso em alguma compra ENTREGUE.                #
+#                                                       #
+chargeback-commands:
+  - 'ban <jogador>'
+
 modules:
   broadcast:
     #                                                     #
