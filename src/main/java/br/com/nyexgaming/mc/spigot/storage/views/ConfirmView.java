@@ -3,7 +3,6 @@ package br.com.nyexgaming.mc.spigot.storage.views;
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
 import br.com.nyexgaming.mc.spigot.database.models.DeliveryModel;
 import br.com.nyexgaming.mc.spigot.storage.Storage;
-import br.com.nyexgaming.mc.spigot.storage.events.DonationEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -18,13 +17,13 @@ public class ConfirmView extends View {
     private String confirmation;
 
     public ConfirmView(Storage storage, ProductsView parent, DeliveryModel shopping, int pageId) {
-        super(pageId, NyexPlugin.getInstance(), storage.config.getConfirmTitle(), 3);
+        super(pageId, NyexPlugin.getInstance(), "" /*storage.config.getConfirmTitle()*/, 3);
 
         this.storage = storage;
         this.parent = parent;
         this.shopping = shopping;
 
-        set(storage.config.getActiveItem().setBoth((event) -> {
+        /*set(storage.config.getActiveItem().setBoth((event) -> {
             Player player = (Player) event.getWhoClicked();
 
             storage.activeShopping(parent, shopping, player);
@@ -38,7 +37,7 @@ public class ConfirmView extends View {
             storage.service.language.send(event.getWhoClicked(), "storage.donation-welcome");
 
             event.getWhoClicked().closeInventory();
-        }));
+        }));*/
     }
 
     public boolean chat(AsyncPlayerChatEvent e) {
@@ -51,13 +50,13 @@ public class ConfirmView extends View {
 
         if (confirmation == null) {
             if (player.getName().equalsIgnoreCase(message) || Bukkit.getPlayer(message) == null) {
-                storage.service.language.send(player, "storage.donation-not-found");
+                //storage.service.language.send(player, "storage.donation-not-found");
                 return false;
             }
 
             confirmation = Bukkit.getPlayer(message).getName();
 
-            storage.service.language.send(player, "storage.donation-confirm");
+            //storage.service.language.send(player, "storage.donation-confirm");
             return false;
         }
 
@@ -65,7 +64,7 @@ public class ConfirmView extends View {
             Player target = Bukkit.getPlayer(confirmation);
 
             if (target == null) {
-                storage.service.language.send(player, "storage.donation-not-found");
+//                storage.service.language.send(player, "storage.donation-not-found");
                 return true;
             }
 
@@ -75,8 +74,8 @@ public class ConfirmView extends View {
             // storage.service.database.insertOrUpdate(shopping);
             storage.views.get(confirmation.toLowerCase()).update();
 
-            storage.service.language.send(player, "storage.donation-sent");
-            storage.service.language.send(target, "storage.donation-received");
+            //          storage.service.language.send(player, "storage.donation-sent");
+            //        storage.service.language.send(target, "storage.donation-received");
         }
 
         return false;

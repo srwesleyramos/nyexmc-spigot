@@ -1,0 +1,16 @@
+#                                                            #
+#                    Nyex Gaming - Spigot                    #
+#                          V 2.0.0                           #
+#                                                            #
+#      ⇝ Loja: https://nyexgaming.com.br/                    #
+#      ⇝ Discord: https://comunidade.nyexgaming.com.br/      #
+#                                                            #
+
+#                                                            #
+#      Nós temos as seguintes placeholders disponíveis:      #
+#      - <transacao:id> - ID da compra                       #
+#      - <transacao:status> - Status da compra               #
+#      - <transacao:price> - Valor da compra                 #
+#                                                            #
+#      - <presente:sender> - Rementente do presente          #
+#                                                            #

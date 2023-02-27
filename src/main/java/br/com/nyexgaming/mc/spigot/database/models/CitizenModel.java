@@ -18,6 +18,10 @@ public class CitizenModel {
         return id;
     }
 
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
     public Location getLocation() {
         if (Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
             net.citizensnpcs.api.npc.NPC npc = net.citizensnpcs.api.CitizensAPI.getNPCRegistry().getById((int) this.id);
@@ -28,9 +32,5 @@ public class CitizenModel {
         }
 
         return location;
-    }
-
-    public long getCreatedAt() {
-        return createdAt;
     }
 }

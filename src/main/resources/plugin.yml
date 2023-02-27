@@ -1,8 +1,8 @@
 main: br.com.nyexgaming.mc.spigot.NyexPlugin
 
-name: NyexGaming
-description: 'Plugin para integração da plataforma NyexGaming.'
-version: 1.0.0
+name: NyexPlugin
+description: 'Plugin de integração da plataforma NyexGaming.'
+version: 2.0.0
 
 softdepend:
   - Citizens
@@ -13,13 +13,11 @@ website: nyexgaming.com.br
 commands:
   nyexgaming:
     aliases:
-      - nyex
+      - nyexplugin
     description: 'Comando administrativo do plugin.'
     permission: nyexgaming.command.admin
-    permission-message: '§4Nyex Gaming ⇝ §cVocê não possui permissão para este comando.'
   nyexstorage:
     aliases:
       - nyexarmazem
-    description: 'Ative ou doe seus produtos da loja.'
+    description: 'Ative ou doe os produtos da loja.'
     permission: nyexgaming.command.storage
-    permission-message: '§4Nyex Gaming ⇝ §cVocê não possui permissão para este comando.'

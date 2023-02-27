@@ -1,50 +1,99 @@
 package br.com.nyexgaming.mc.spigot.language;
 
 import br.com.nyexgaming.mc.spigot.NyexPlugin;
+import br.com.nyexgaming.mc.spigot.database.models.UserModel;
+import br.com.nyexgaming.mc.spigot.language.lang.Translation;
 import br.com.nyexgaming.mc.spigot.service.Service;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.HumanEntity;
-import tk.wesleyramos.mclib.Config;
+import org.bukkit.command.CommandSender;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.zip.ZipFile;
 
 public class Language {
 
-    private final Config config;
+    private final Map<String, Translation> translations = new HashMap<>();
     private final Service service;
 
     public Language(Service service) {
         this.service = service;
-
-        this.config = new Config(NyexPlugin.getInstance(), "language.yml").saveDefaultFile();
     }
 
-    public void reload() {
-        config.reload();
+    public void load() throws IOException {
+        File folder = new File(service.config.getFile().getParentFile(), "languages/");
 
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7línguas §finiciou corretamente.");
+        if (!folder.exists()) {
+            saveDefaultFiles();
+        }
+
+        loadLanguages(folder);
+
+        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §bOK! §7The §blanguage module §7started correctly.");
+    }
+
+    public void loadLanguages(File folder) {
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
+            if (!file.isDirectory()) continue;
+
+            translations.put(file.getName().toLowerCase(), new Translation(file));
+        }
     }
 
     public void unload() {
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §aV §fo módulo §7línguas §ffoi finalizado.");
+        translations.clear();
+
+        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §bOK! §7The §blanguage §fmodule has been terminated.");
     }
 
-    public List<String> get(String player, String path, Object... placeholders) {
-        return config.getStringList(path).stream().map(text -> {
-            if (placeholders == null || placeholders.length <= 1) {
-                return text.replace("&", "§");
-            }
+    public void saveDefaultFiles() throws IOException {
+        ZipFile zipFile = new ZipFile(NyexPlugin.getInstance().getCurrentFile());
 
-            for (int i = 0; i < placeholders.length; i += 2) {
-                text = text.replace(String.valueOf(placeholders[i]), String.valueOf(placeholders[i + 1]));
-            }
+        zipFile.stream().filter(e -> e.getName().startsWith("languages/")).forEach(e -> {
+            File file = new File(service.config.getFile().getParentFile(), e.getName());
 
-            return text.replace("&", "§");
-        }).collect(Collectors.toList());
+            if (e.isDirectory()) return;
+
+            file.getParentFile().mkdirs();
+
+            try {
+                Files.copy(zipFile.getInputStream(e), file.toPath());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        zipFile.close();
     }
 
-    public void send(HumanEntity player, String path, Object... placeholders) {
-        get(player.getName(), path, placeholders).forEach(player::sendMessage);
+    public Translation getTranslationByUser(CommandSender player) {
+        return getTranslationByUser(player.getName());
+    }
+
+    public Translation getTranslationByUser(String player) {
+        UserModel user = service.database.getUserByName(player);
+
+        if (getTranslation(user.getLanguage()) == null) {
+            user.setLanguage(service.config.getString("languages.default"));
+        }
+
+        return getTranslation(user.getLanguage());
+    }
+
+    public Translation getTranslation(String name) {
+        return translations.get(name.toLowerCase());
+    }
+
+    public Translation getDefaultTranslation() {
+        return getTranslation(service.config.getString("languages.default"));
+    }
+
+    public Collection<Translation> getTranslations() {
+        return translations.values();
     }
 }

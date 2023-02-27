@@ -52,16 +52,20 @@ public class Database {
 
         loadAll();
 
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot] [DATABASE]: §eOK! §fThe §edatabase §fmodule started correctly.");
+        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §bOK! §7The §bdatabase module §7started correctly.");
     }
 
     public void disconnect() throws SQLException {
         saveAll();
 
+        citizens.clear();
+        deliveries.clear();
+        users.clear();
+
         connection.close();
         connection = null;
 
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot] [DATABASE]: §eOK! §fThe §edatabase §fmodule has been terminated.");
+        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §bOK! §7The §bdatabase module §7has been terminated.");
     }
 
     public void loadAll() throws SQLException {
@@ -78,8 +82,6 @@ public class Database {
             CitizenModel citizen = CitizenAdapter.read(result);
             citizens.put(citizen.getId(), citizen);
         }
-
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot] [DATABASE]: §7" + citizens.size() + " entities §fwere loaded.");
     }
 
     public void loadDeliveries() throws SQLException {
@@ -90,8 +92,6 @@ public class Database {
             DeliveryModel delivery = DeliveryAdapter.read(result);
             deliveries.put(delivery.getId_transacao(), delivery);
         }
-
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot] [DATABASE]: §7" + deliveries.size() + " deliveries §fwere loaded.");
     }
 
     public void loadUsers() throws SQLException {
@@ -100,10 +100,8 @@ public class Database {
 
         while (result.next()) {
             UserModel user = UserAdapter.read(result);
-            users.put(user.getName(), user);
+            users.put(user.getName().toLowerCase(), user);
         }
-
-        Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot] [DATABASE]: §7" + users.size() + " users §fwere loaded.");
     }
 
     public void saveAll() throws SQLException {
@@ -151,13 +149,13 @@ public class Database {
     }
 
     public void update(UserModel user) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("INSERT OR REPLACE INTO `nyex_languages` VALUES (?,?)");
+        PreparedStatement statement = connection.prepareStatement("INSERT OR REPLACE INTO `nyex_users` VALUES (?,?)");
 
         UserAdapter.write(statement, user);
 
         statement.execute();
 
-        users.putIfAbsent(user.getName(), user);
+        users.putIfAbsent(user.getName().toLowerCase(), user);
     }
 
     public CitizenModel getCitizenById(long id) {

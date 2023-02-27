@@ -1,7 +1,6 @@
 package br.com.nyexgaming.mc.spigot.storage;
 
 import br.com.nyexgaming.mc.spigot.database.models.DeliveryModel;
-import br.com.nyexgaming.mc.spigot.language.LanguageConfig;
 import br.com.nyexgaming.mc.spigot.service.Service;
 import br.com.nyexgaming.mc.spigot.storage.views.ProductsView;
 import org.bukkit.Bukkit;
@@ -17,8 +16,6 @@ import java.util.Map;
 
 public class Storage {
 
-    public final LanguageConfig config;
-
     public final Map<Integer, Location> npcs;
     public final Map<String, ProductsView> views;
     public final Map<Long, DeliveryModel> products;
@@ -29,7 +26,7 @@ public class Storage {
     public Storage(Service service) {
         this.service = service;
 
-        this.config = new LanguageConfig(this);
+        //this.config = new Translation(this);
         this.executor = new StorageExecutor(service);
 
         this.products = new HashMap<>();
@@ -45,7 +42,7 @@ public class Storage {
             return;
         }
 
-        this.config.reload();
+        //this.config.reload();
 
         this.reloadDonations();
         this.reloadNpcs();

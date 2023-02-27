@@ -11,6 +11,7 @@ import br.com.nyexgaming.sdk.http.exceptions.TokenFailureException;
 import org.bukkit.Bukkit;
 import tk.wesleyramos.mclib.Config;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class Service {
@@ -40,7 +41,7 @@ public class Service {
         try {
             config.reload();
             database.connect();
-            language.reload();
+            language.load();
             storage.reload();
 
             Bukkit.getConsoleSender().sendMessage("§9[Nyex Spigot]: §4X §co módulo §4banco de dados §capresentou erros ao iniciar.");
@@ -58,6 +59,8 @@ public class Service {
             Bukkit.getConsoleSender().sendMessage("§4[Nyex Gaming]: §cMensagem: §4" + e.getMessage());
 
             sdk = null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -67,6 +70,7 @@ public class Service {
         task.interrupt();
         storage.unload();
         language.unload();
+
         try {
             database.disconnect();
         } catch (SQLException e) {

@@ -18,7 +18,7 @@ public class ProductsView extends Pagination {
     public StorageFilter filter = StorageFilter.ALL;
 
     public ProductsView(String name, Storage parent) {
-        super(NyexPlugin.getInstance(), parent.config.getProductsTitle(), 6, new int[]{
+        super(NyexPlugin.getInstance(), "" /*parent.config.getProductsTitle()*/, 6, new int[]{
                 10, 11, 12, 13, 14, 15, 16,
                 19, 20, 21, 22, 23, 24, 25,
                 28, 29, 30, 31, 32, 33, 34
@@ -27,7 +27,7 @@ public class ProductsView extends Pagination {
         this.name = name;
         this.parent = parent;
 
-        set(parent.config.getOrderItem(this).setBoth(e -> {
+        /*set(parent.config.getOrderItem(this).setBoth(e -> {
             order = (order == StorageOrder.PRICE ? StorageOrder.DATE : StorageOrder.PRICE);
 
             update();
@@ -39,7 +39,7 @@ public class ProductsView extends Pagination {
             filter = (filter != StorageFilter.ALL ? (filter == StorageFilter.PRODUCTS ? StorageFilter.DONATIONS : StorageFilter.ALL) : StorageFilter.PRODUCTS);
 
             update();
-        }));
+        }));*/
 
         previousButton(18, new ItemBuilder(Material.ARROW).setDisplayName(""));
 
@@ -79,7 +79,7 @@ public class ProductsView extends Pagination {
                     return p2.compareTo(p1);
                 })
 
-                .map(shopping -> (shopping.isPresente() ? parent.config.getGiftItem(parent.getPlaceholder(shopping)) : parent.config.getProductItem(parent.getPlaceholder(shopping))).setBoth((event) -> {
+                .map(shopping -> ((ViewItem) null) /*(shopping.isPresente() ? parent.config.getGiftItem(parent.getPlaceholder(shopping)) : parent.config.getProductItem(parent.getPlaceholder(shopping)))*/.setBoth((event) -> {
                     Player player = (Player) event.getWhoClicked();
 
                     /*if (!player.getName().equalsIgnoreCase(shopping.target())) {

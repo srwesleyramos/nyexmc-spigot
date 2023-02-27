@@ -1,14 +1,14 @@
 #                                                            #
 #                    Nyex Gaming - Spigot                    #
-#                          V 1.0.0                           #
+#                          V 2.0.0                           #
 #                                                            #
 #      ⇝ Loja: https://nyexgaming.com.br/                    #
 #      ⇝ Discord: https://comunidade.nyexgaming.com.br/      #
 #                                                            #
 
 credentials:
-  access-store: 'CREDENCIAIS DA LOJA'
-  access-server: 'CREDENCIAIS DO SERVIDOR'
+  store: 'CREDENCIAIS DA LOJA'
+  server: 'CREDENCIAIS DO SERVIDOR'
 
 database:
   #                                                     #
@@ -17,7 +17,7 @@ database:
   #   MYSQL: jdbc:mysql://<host:port>/<database>        #
   #   SQLITE: jdbc:sqlite:<caminho>                     #
   #                                                     #
-  jdbcUrl: 'jdbc:sqlite:plugins/NyexGaming/sqlite.db'
+  jdbcUrl: 'jdbc:sqlite:plugins/NyexPlugin/sqlite.db'
 
   #                                                     #
   #   Qual o usuário e senha do seu banco de dados?     #
@@ -25,6 +25,13 @@ database:
   #                                                     #
   user: 'root'
   password: 'password'
+
+languages:
+  #                                                     #
+  #     Qual linguagem deve ser associada caso o        #
+  #     idioma do jogador não exista?                   #
+  #                                                     #
+  default: 'pt'
 
 modules:
   broadcast:
