@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 public class LanguageCommand extends Command {
 
+    private final Pattern pattern = Pattern.compile("<translations>");
     private final Service service;
 
     public LanguageCommand(Service service) {
@@ -60,7 +61,7 @@ public class LanguageCommand extends Command {
     }
 
     public boolean listLanguagesCommand(CommandSender sender, String[] args, Translation language) {
-        if (!sender.hasPermission("nyexgaming.command.language.list")) {
+        if (!sender.hasPermission("nyexgaming.command.language.list") || !(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
             return false;
         }
@@ -68,6 +69,10 @@ public class LanguageCommand extends Command {
         TextComponent formatted = new TextComponent("");
 
         service.language.getTranslations().forEach(translation -> {
+            if (formatted.getExtra() != null) {
+                formatted.addExtra(", ");
+            }
+
             TextComponent component = new TextComponent();
 
             component.setText((language.getName().equals(translation.getName()) ? "§e" : "§7") + translation.getName());
@@ -80,9 +85,7 @@ public class LanguageCommand extends Command {
         language.getMessage("language.list.get").forEach(text -> {
             TextComponent component = new TextComponent("");
 
-            Pattern pattern = Pattern.compile("<translations>");
             Matcher matcher = pattern.matcher(text);
-
             int startsString = 0;
 
             while (matcher.find()) {
@@ -148,7 +151,7 @@ public class LanguageCommand extends Command {
     }
 
     public boolean setSelfLanguageCommand(CommandSender sender, String[] args, Translation language) {
-        if (!sender.hasPermission("nyexgaming.command.language")) {
+        if (!sender.hasPermission("nyexgaming.command.language") || !(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
             return false;
         }
@@ -175,7 +178,7 @@ public class LanguageCommand extends Command {
     }
 
     public boolean getSelfLanguageCommand(CommandSender sender, String[] args, Translation language) {
-        if (!sender.hasPermission("nyexgaming.command.language")) {
+        if (!sender.hasPermission("nyexgaming.command.language") || !(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.");
             return false;
         }
