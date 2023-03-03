@@ -28,7 +28,7 @@ public class ServiceExecutor {
         for (Shopping shopping : transactions) {
             Player player = Bukkit.getPlayer(shopping.target());
 
-            if (player == null || shopping.entregue == 3) continue;
+            if (player == null || shopping.entregue == 2) continue;
 
             if (shopping.status() == TransactionStatus.REVERSED) {
                 if (shopping.entregue == 1) {
@@ -45,7 +45,7 @@ public class ServiceExecutor {
                     }.runTaskLater(NyexPlugin.getInstance(), 0L);
                 }
 
-                service.sdk.update(shopping.delivered(3));
+                service.sdk.update(shopping.delivered(2));
                 continue;
             }
 
