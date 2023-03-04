@@ -61,7 +61,7 @@ public class ServiceExecutor {
                             for (ProductCommand command : product.comandos) {
                                 Bukkit.dispatchCommand(
                                         command.console ? Bukkit.getConsoleSender() : player,
-                                        command.cmd.replace("<jogador>", player.getName())
+                                        command.comando.replace("<jogador>", player.getName())
                                 );
                             }
                         }
